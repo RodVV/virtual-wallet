@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { loginAction } from '../actions/index';
 
 class Login extends React.Component {
   constructor() {
@@ -15,7 +17,8 @@ class Login extends React.Component {
 
   handleClick = () => {
     const path = '/carteira';
-    const { history } = this.props;
+    const { history, userLogin } = this.props;
+    userLogin(this.state);
     history.push(path);
   }
 
@@ -58,8 +61,15 @@ class Login extends React.Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    userLogin: (state) => dispatch(loginAction(state)),
+  };
+}
+
 Login.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }),
+  userLogin: PropTypes.func,
 }.isRequired;
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
