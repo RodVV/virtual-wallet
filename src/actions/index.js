@@ -1,8 +1,8 @@
 export const USER_LOGIN = 'USER_LOGIN';
 
-export function loginAction(state) {
+export function loginAction(email) {
   return {
     type: USER_LOGIN,
-    payload: state,
+    payload: email,
   };
 }

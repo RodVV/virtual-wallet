@@ -10,6 +10,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      isDisable: true,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -18,40 +19,53 @@ class Login extends React.Component {
   handleClick = () => {
     const path = '/carteira';
     const { history, userLogin } = this.props;
-    userLogin(this.state);
+    const { email } = this.state;
+    userLogin(email);
     history.push(path);
   }
 
+  // https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript/48800#48800
+
   handleChange({ target }) {
     const { name, value } = target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => {
+      const { email, password } = this.state;
+      const VALID_EMAIL = /\S+@\S+\.\S+/;
+      const PASSWORD_LENGTH = 5;
+      this.setState({
+        isDisable: !(VALID_EMAIL.test(email) && password.length > PASSWORD_LENGTH),
+      });
+    });
   }
 
   render() {
-    const { email, password } = this.state;
-    const PASSWORD_LENGTH = 6;
+    const { email, password, isDisable } = this.state;
     return (
       <div>
-        <input
-          type="email"
-          placeholder="Email"
-          data-testid="email-input"
-          onChange={ this.handleChange }
-          value={ email }
-          name="email"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          data-testid="password-input"
-          onChange={ this.handleChange }
-          value={ password }
-          name="password"
-        />
+        <label htmlFor="email">
+          <input
+            type="email"
+            placeholder="Email"
+            data-testid="email-input"
+            onChange={ this.handleChange }
+            value={ email }
+            name="email"
+          />
+        </label>
+        <label htmlFor="password">
+          <input
+            type="password"
+            placeholder="Password"
+            data-testid="password-input"
+            onChange={ this.handleChange }
+            value={ password }
+            name="password"
+          />
+        </label>
         <button
-          type="button"
+          type="submit"
           onClick={ this.handleClick }
-          disabled={ password.length < PASSWORD_LENGTH }
+          disabled={ isDisable }
         >
           Entrar
         </button>
@@ -63,7 +77,7 @@ class Login extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    userLogin: (state) => dispatch(loginAction(state)),
+    userLogin: (email) => dispatch(loginAction(email)),
   };
 }
 
