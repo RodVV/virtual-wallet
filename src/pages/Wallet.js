@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../Components/Header';
+import Form from '../Components/Form';
 import { getCurrencyThunk } from '../actions/index';
 
 class Wallet extends React.Component {
@@ -14,7 +15,7 @@ class Wallet extends React.Component {
     return (
       <>
         <Header />
-        <div>TrybeWallet</div>
+        <Form />
       </>
     );
   }
