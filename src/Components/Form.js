@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { saveExpense } from '../actions/index';
+import { saveExpense, getPrice } from '../actions/index';
 
-const defaultExpense = 'Alimentação';
+const defaultTag = 'Alimentação';
 
 class Form extends Component {
   constructor() {
@@ -11,38 +11,45 @@ class Form extends Component {
 
     this.state = {
       id: 0,
-      value: 0,
+      value: '',
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
-      expense: defaultExpense,
+      tag: defaultTag,
     };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleClick = () => {
-    // const { id, value, description, currency, method, expense } = this.state;
+  handleClick = async () => {
     const { addExpense } = this.props;
-    const { id } = this.state;
-    addExpense(this.state);
+    const { id, value, description, currency, method, tag } = this.state;
+    const rates = await getPrice();
+    const expense = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: rates,
+    };
+    addExpense(expense);
     this.setState({
       id: (id + 1),
-      value: 0,
+      value: '',
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
-      expense: defaultExpense,
+      tag: defaultTag,
     });
   }
 
-  handleChange({ target }) {
+  handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
   }
 
   render() {
-    const { value, description, currency, method, expense } = this.state;
+    const { value, description, currency, method, tag } = this.state;
     const { currencies } = this.props;
     return (
       <div>
@@ -98,16 +105,16 @@ class Form extends Component {
             <option>Cartão de débito</option>
           </select>
         </label>
-        <label htmlFor="expense">
+        <label htmlFor="tag">
           Despesa :
           <select
             id="expense"
             data-testid="tag-input"
-            value={ expense }
+            value={ tag }
             onChange={ this.handleChange }
-            name="expense"
+            name="tag"
           >
-            <option>{defaultExpense}</option>
+            <option>{defaultTag}</option>
             <option>Lazer</option>
             <option>Trabalho</option>
             <option>Transporte</option>

@@ -12,8 +12,6 @@ class Login extends React.Component {
       password: '',
       isDisable: true,
     };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleClick = () => {
@@ -26,7 +24,7 @@ class Login extends React.Component {
 
   // https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript/48800#48800
 
-  handleChange({ target }) {
+  handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value }, () => {
       const { email, password } = this.state;

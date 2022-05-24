@@ -14,6 +14,7 @@ function wallet(state = INITIAL_STATE, action) {
       currencies: [...action.currencies],
     };
   case SAVE_EXPENSE:
+    // console.log(state.expenses);
     return {
       ...state,
       expenses: [...state.expenses, {
