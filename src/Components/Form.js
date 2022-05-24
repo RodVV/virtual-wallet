@@ -108,7 +108,7 @@ class Form extends Component {
         <label htmlFor="tag">
           Despesa :
           <select
-            id="expense"
+            id="tag"
             data-testid="tag-input"
             value={ tag }
             onChange={ this.handleChange }

@@ -42,7 +42,7 @@ export async function getPrice() {
   try {
     const fetchApi = await fetch(CURRENCY_BASE_API);
     const data = await fetchApi.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.log(error);
