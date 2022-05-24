@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveExpense } from '../actions/index';
 
+const defaultExpense = 'Alimentação';
+
 class Form extends Component {
   constructor() {
     super();
@@ -13,7 +15,7 @@ class Form extends Component {
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
-      expense: 'Alimentação',
+      expense: defaultExpense,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,7 +32,7 @@ class Form extends Component {
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
-      expense: 'Alimentação',
+      expense: defaultExpense,
     });
   }
 
@@ -105,7 +107,7 @@ class Form extends Component {
             onChange={ this.handleChange }
             name="expense"
           >
-            <option>Alimentação</option>
+            <option>{defaultExpense}</option>
             <option>Lazer</option>
             <option>Trabalho</option>
             <option>Transporte</option>
