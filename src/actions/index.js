@@ -1,5 +1,6 @@
 export const USER_LOGIN = 'USER_LOGIN';
 export const GET_CURRENCIES = 'GET_CURRENCIES';
+export const SAVE_EXPENSE = 'SAVE_EXPENSE';
 
 export function loginAction(email) {
   return {
@@ -11,6 +12,11 @@ export function loginAction(email) {
 export const getCurrencies = (currencies) => ({
   type: GET_CURRENCIES,
   currencies,
+});
+
+export const saveExpense = (expense) => ({
+  type: SAVE_EXPENSE,
+  expenses: expense,
 });
 
 const CURRENCY_BASE_API = 'https://economia.awesomeapi.com.br/json/all';
