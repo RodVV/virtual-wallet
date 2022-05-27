@@ -12,6 +12,7 @@ class Wallet extends React.Component {
   }
 
   render() {
+    const { expenses } = this.props;
     return (
       <>
         <Header />
@@ -29,6 +30,26 @@ class Wallet extends React.Component {
               <th>Moeda de conversão</th>
               <th>Editar/Excluir</th>
             </tr>
+            {expenses.map((expense, index) => {
+              const currencies = Object.entries(expense.exchangeRates)
+                .find((obj) => obj[1].code === expense.currency)[1];
+              return (
+                <tr key={ index }>
+                  <td>{expense.description}</td>
+                  <td>{expense.tag}</td>
+                  <td>{expense.method}</td>
+                  <td>{parseFloat(expense.value).toFixed(2)}</td>
+                  <td>{currencies.name}</td>
+                  <td>{parseFloat(currencies.ask).toFixed(2)}</td>
+                  <td>{parseFloat(currencies.ask * expense.value).toFixed(2)}</td>
+                  <td>Real</td>
+                  <td>
+                    <button type="button">Editar</button>
+                    <button type="button">Excluir</button>
+                  </td>
+                </tr>
+              );
+            })}
           </thead>
         </table>
       </>
@@ -42,8 +63,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+const mapStateToProps = (state) => ({
+  expenses: state.wallet.expenses,
+});
+
 Wallet.propTypes = {
   fetchCurrencies: PropTypes.func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Wallet);
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
